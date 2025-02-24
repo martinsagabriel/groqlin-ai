@@ -2,8 +2,6 @@
 
 Aplicação web de chatbot inteligente com suporte a múltiplos modelos de linguagem (LLMs) via API Groq, desenvolvido com React.js e LangChain.
 
-![Demo Chatbot](screenshot.png)
-
 ## ✨ Funcionalidades
 
 - 🧠 Conversação com modelos de IA de última geração
@@ -152,4 +150,3 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo `LICENSE` para
 ---
 
 **Nota:** Este projeto é para fins educacionais/demonstrativos. Para ambientes de produção, recomenda-se implementar um backend para gerenciar as chaves de API com segurança.
-```
