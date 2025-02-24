@@ -1,70 +1,156 @@
-# Getting Started with Create React App
+```markdown
+# Groqlin
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplicação web de chatbot inteligente com suporte a múltiplos modelos de linguagem (LLMs) via API Groq, desenvolvido com React.js e LangChain.
 
-## Available Scripts
+![Demo Chatbot](screenshot.png)
 
-In the project directory, you can run:
+## ✨ Funcionalidades
 
-### `npm start`
+- 🧠 Conversação com modelos de IA de última geração
+- 🔄 Troca de modelos em tempo real (Mixtral, Llama2, Gemma)
+- 💾 Histórico de conversas com armazenamento local
+- ✏️ Renomeação de conversas salvas
+- 🎨 Interface responsiva e moderna com Material UI
+- 🛑 Tratamento de erros e loading states
+- ⚙️ Configuração simples via arquivo .env
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📋 Pré-requisitos
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Node.js >= 18.15.0
+- npm >= 9.5.0
+- Chave de API Groq (registre-se em [console.groq.com](https://console.groq.com))
 
-### `npm test`
+## 🚀 Instalação
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone o repositório:
 
-### `npm run build`
+   ```bash
+   git clone 
+   cd Groqlin
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Instale as dependências:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```bash
+   npm install
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Crie o arquivo `.env` na raiz do projeto:
 
-### `npm run eject`
+   ```env
+   REACT_APP_GROQ_API_KEY=sua_chave_aqui
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. Inicie a aplicação:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```bash
+   npm start
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   A aplicação estará disponível em: [http://localhost:3000](http://localhost:3000)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🖥 Como Usar
 
-## Learn More
+### Nova Conversa
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Clique no botão "+" na sidebar para iniciar nova conversa
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Enviar Mensagem
 
-### Code Splitting
+- Digite sua mensagem no campo de texto
+- Pressione Enter ou clique no botão "Enviar"
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Trocar Modelo
 
-### Analyzing the Bundle Size
+- Selecione o modelo desejado no dropdown superior
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Gerenciar Conversas
 
-### Making a Progressive Web App
+- ✏️ Clique no ícone de lápis para renomear
+- 🗑️ Clique no ícone de lixeira para excluir
+- 💾 Histórico salvo automaticamente no localStorage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Configuração do `.env`
 
-### Advanced Configuration
+Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```env
+REACT_APP_GROQ_API_KEY=sua_chave_groq_aqui
+```
 
-### Deployment
+**Importante:** Nunca compartilhe ou faça commit deste arquivo!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🔧 Tecnologias Utilizadas
 
-### `npm run build` fails to minify
+- React.js
+- LangChain
+- Groq API
+- Material UI
+- Day.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🔍 Dicas
+
+Para obter uma chave de API Groq:
+
+- Acesse [console.groq.com](https://console.groq.com)
+- Crie uma conta gratuita
+- Gere uma nova chave em "API Keys"
+- Mantenha sua chave de API em segurança
+- Experimente diferentes modelos para comparar respostas
+
+## ⚠️ Solução de Problemas
+
+### Erro: "Missing API Key"
+
+- Verifique se o arquivo `.env` existe na raiz do projeto
+- Confira se o nome da variável está correto: `REACT_APP_GROQ_API_KEY`
+
+### Erro: "Invalid API Key"
+
+- Gere uma nova chave no console da Groq
+- Atualize o arquivo `.env`
+
+### Erros de Instalação
+
+Limpe o cache do npm:
+
+```bash
+npm cache clean --force
+rm -rf node_modules
+npm install
+```
+
+## 🤝 Contribuição
+
+Contribuições são bem-vindas! Siga estes passos:
+
+1. Faça um fork do projeto
+2. Crie uma branch com sua feature:
+
+   ```bash
+   git checkout -b feature/incrivel
+   ```
+
+3. Faça commit das mudanças:
+
+   ```bash
+   git commit -m 'Add incrivel feature'
+   ```
+
+4. Faça push para a branch:
+
+   ```bash
+   git push origin feature/incrivel
+   ```
+
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo `LICENSE` para detalhes.
+
+---
+
+**Nota:** Este projeto é para fins educacionais/demonstrativos. Para ambientes de produção, recomenda-se implementar um backend para gerenciar as chaves de API com segurança.
+```
