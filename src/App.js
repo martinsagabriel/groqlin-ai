@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChatGroq } from '@langchain/groq';
-import { HumanMessage, AIMessage } from '@langchain/core/messages';
+import { HumanMessage } from '@langchain/core/messages';
 import {
   Box,
   Button,
@@ -19,10 +19,11 @@ import {
   DialogTitle,
   DialogActions
 } from '@mui/material';
-import { SmartToy, Delete, Add, Person, Edit } from '@mui/icons-material';
+import { Delete, Add, Edit, Send } from '@mui/icons-material';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import dayjs from 'dayjs';
+import './theme.css';
 
 // Estrutura do histórico de conversas
 const initialConversations = JSON.parse(localStorage.getItem('chatHistory') || '[]');
@@ -150,16 +151,19 @@ const App = () => {
   };
 
   return (
-    <Container maxWidth="md" disableGutters sx={{
+    <Container maxWidth="lg" disableGutters sx={{
       height: '100vh',
       display: 'flex',
-      flexDirection: 'column',
-      bgcolor: '#f5f5f5'
+      gap: 2,
+      bgcolor: '#f5f5f5',
     }}>
-      {/* Sidebar de conversas */}
-      <Paper sx={{ width: 300, p: 2, display: 'flex', flexDirection: 'column' }}>
+
+      {/* Sidebar */}
+      <Paper sx={{ width: 200, p: 2, display: 'flex', flexDirection: 'column' }}>
+        {/* <Typography variant="h4" sx={{ fontWeight: 600 }}>Groqlin AI</Typography> */}
+
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-          <Typography variant="h6">Conversas</Typography>
+          <Typography variant="h6" color="#666666">Conversas</Typography>
           <IconButton onClick={createNewConversation}>
             <Add />
           </IconButton>
@@ -210,62 +214,22 @@ const App = () => {
         </List>
       </Paper>
 
-      {/* Header */}
-      <Paper square elevation={3} sx={{
-        p: 2,
-        bgcolor: 'white',
-        borderBottom: '1px solid #e0e0e0',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 2
-      }}>
-        <Typography variant="h6" sx={{ fontWeight: 600 }}>Groqlin AI</Typography>
-        <Select
-          value={selectedModel}
-          onChange={(e) => setSelectedModel(e.target.value)}
-          size="small"
-          sx={{
-            ml: 'auto',
-            width: 180,
-            '& .MuiSelect-select': { py: 1 }
-          }}
-        >
-          {models.map((model) => (
-            <MenuItem key={model.value} value={model.value}>
-              {model.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </Paper>
 
       {/* Chat Messages */}
-      <Box sx={{
-        flex: 1,
-        overflow: 'auto',
-        p: 2,
-        '& > *': { mb: 2 }
-      }}>
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         {messages.map((msg, index) => (
           <Box key={index} sx={{
             display: 'flex',
-            gap: 1.5,
+            gap: 3.5,
             flexDirection: msg.type === 'human' ? 'row-reverse' : 'row'
           }}>
-            <Avatar sx={{
-              width: 32,
-              height: 32,
-              bgcolor: msg.type === 'human' ? '#1976d2' : '#4caf50',
-              fontSize: 14
-            }}>
-              {msg.type === 'human' ? <Person /> : <SmartToy />}
-            </Avatar>
-
             <Box sx={{
-              maxWidth: '70%',
+              maxWidth: '60%',
               bgcolor: msg.type === 'human' ? '#1976d2' : '#e8f5e9',
               color: msg.type === 'human' ? 'white' : 'text.primary',
               p: 1.5,
-              borderRadius: 2,
+              borderRadius: 6,
+              marginBottom: 2,
               position: 'relative',
               '&:after': {
                 content: '""',
@@ -289,69 +253,81 @@ const App = () => {
                   <code style={{
                     background: '#ffffff30',
                     padding: '2px 4px',
-                    borderRadius: 3,
+                    borderRadius: 6,
                     fontFamily: 'monospace'
                   }} {...props} />
                 )
               }}>
                 {msg.content}
               </ReactMarkdown>
-              <Typography variant="caption" sx={{
-                display: 'block',
-                mt: 1,
-                color: msg.type === 'human' ? '#ffffff99' : '#00000099',
-                fontSize: 10
-              }}>
-                {msg.timestamp}
-              </Typography>
+              {msg.type === 'ai' && (
+                <Typography variant="caption" color="text.secondary">
+                  Modelo: {models.find(m => m.value === msg.model)?.name}
+                </Typography>
+              )}
             </Box>
           </Box>
         ))}
-      </Box>
 
-      {/* Warning Footer */}
-      <Box sx={{
-        position: 'sticky',
-        bottom: 0,
-        bgcolor: 'white',
-        borderTop: '1px solid #e0e0e0',
-        p: 1.5
-      }}>
 
-        <Box sx={{ display: 'flex', gap: 1.5 }}>
-          <TextField
-            fullWidth
-            variant="outlined"
-            size="small"
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            placeholder="Enviar mensagem"
-            disabled={isLoading}
-            sx={{
-              '& .MuiOutlinedInput-root': {
+        {/* ChatInput */}
+        <Box sx={{
+          position: 'sticky',
+          bottom: 0,
+          background: 'white',
+          zIndex: 1,
+          borderTop: '1px solid #e0e0e0',
+          pt: 2,
+          pb: 2,
+          width: '100%'
+        }}>
+          <Box sx={{ position: 'relative', display: 'flex', gap: 1 }}>
+            <Select
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
+              size="small"
+              sx={{ width: 140 }}
+            >
+              {models.map((model) => (
+                <MenuItem key={model.value} value={model.value}>
+                  {model.name}
+                </MenuItem>
+              ))}
+            </Select>
+            <TextField
+              fullWidth
+              variant="outlined"
+              size="small"
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              placeholder="Enviar mensagem"
+              disabled={isLoading}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 20,
+                  bgcolor: 'background.paper'
+                }
+              }}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSendMessage}
+              disabled={isLoading || !inputMessage.trim()}
+              sx={{
                 borderRadius: 20,
-                bgcolor: 'background.paper'
-              }
-            }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSendMessage}
-            disabled={isLoading || !inputMessage.trim()}
-            sx={{
-              borderRadius: 20,
-              minWidth: 100,
-              textTransform: 'none'
-            }}
-          >
-            Enviar
-          </Button>
+                minWidth: 100,
+                textTransform: 'none'
+              }}
+            >
+              <Send />
+            </Button>
+          </Box>
         </Box>
       </Box>
 
-      {/* Diálogo de confirmação para exclusão */}
+      {/* Diálogos */}
       <Dialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
@@ -396,7 +372,7 @@ const App = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Container>
+    </Container >
   );
 };
 

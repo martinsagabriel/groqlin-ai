@@ -1,4 +1,3 @@
-```markdown
 # Groqlin
 
 Aplicação web de chatbot inteligente com suporte a múltiplos modelos de linguagem (LLMs) via API Groq, desenvolvido com React.js e LangChain.

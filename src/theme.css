@@ -1,5 +1,5 @@
-/* theme.css */
 :root {
+    font-family: 'Montserrat', sans-serif;
     /* Light Theme */
     --light-bg: #ffffff;
     --light-text: #1a1a1a;
