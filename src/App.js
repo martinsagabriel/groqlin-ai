@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChatGroq } from '@langchain/groq';
 import { HumanMessage } from '@langchain/core/messages';
-import dayjs from 'dayjs';
 
 // Componentes
 import Sidebar from './components/Sidebar';
@@ -34,7 +33,7 @@ const storedDarkMode = localStorage.getItem('darkMode') === 'true';
 const App = () => {
   const [inputMessage, setInputMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const [selectedModel, setSelectedModel] = useState('deepseek-r1-distill-qwen-32b');
+  const [selectedModel, setSelectedModel] = useState('llama-3.3-70b-versatile');
   const [isLoading, setIsLoading] = useState(false);
 
   // Histórico de conversas
@@ -55,9 +54,13 @@ const App = () => {
 
   // Modelos disponíveis
   const models = [
-    { name: 'Llama3', value: 'llama3-70b-8192' },
-    { name: 'qwen-coder', value: 'qwen-2.5-coder-32b' },
-    { name: 'deepseek', value: 'deepseek-r1-distill-qwen-32b' }
+    { name: 'Llama 3.3', value: 'llama-3.3-70b-versatile' },
+    { name: 'Qwen Coder', value: 'qwen-2.5-coder-32b' },
+    { name: 'Deepseek-R1', value: 'deepseek-r1-distill-qwen-32b' },
+    { name: 'Gemma2', value: 'deepseek-coder-32b' },
+    { name: 'Whisper', value: 'whisper-large-v3' },
+    { name: 'Whisper Turbo', value: 'whisper-large-v3-turbo' },
+    { name: 'Qwen 2.5', value: 'qwen-2.5-32b'},
   ];
 
   // Atualiza localStorage sempre que o array de conversas mudar

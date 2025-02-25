@@ -6,8 +6,7 @@ import {
     IconButton,
     List,
     ListItem,
-    ListItemText,
-    Switch
+    ListItemText
 } from '@mui/material';
 import { Add, Edit, Delete, DarkMode, LightMode } from '@mui/icons-material';
 import dayjs from 'dayjs';
