@@ -1,84 +1,94 @@
 # Groqlin
 
-Aplicação web de chatbot inteligente com suporte a múltiplos modelos de linguagem (LLMs) via API Groq, desenvolvido com React.js e LangChain.
+Intelligent chatbot web application supporting multiple language models (LLMs) via the Groq API, developed with React.js and LangChain.
 
-## ✨ Funcionalidades
+## ✨ Features
 
-- 🧠 Conversação com modelos de IA de última geração
-- 🔄 Troca de modelos em tempo real (Mixtral, Llama2, Gemma)
-- 💾 Histórico de conversas com armazenamento local
-- ✏️ Renomeação de conversas salvas
-- 🎨 Interface responsiva e moderna com Material UI
-- 🛑 Tratamento de erros e loading states
-- ⚙️ Configuração simples via arquivo .env
+- 🧠 Conversation with state-of-the-art AI models
+- 🔄 Real-time model switching (Mixtral, Llama2, Gemma)
+- 💾 Conversation history with local storage
+- ✏️ Rename saved conversations
+- 🎨 Responsive and modern interface with Material UI
+- 🛑 Error handling and loading states
+- ⚙️ Simple configuration via a .env file
 
-## 📋 Pré-requisitos
+## 🐳 Docker Setup
+
+Follow these steps to build and run the Docker container for Groqlin:
+
+1. **Build the Docker Image**
+
+   ```bash
+   docker compose up -d
+   ```
+
+## 📋 Prerequisites
 
 - Node.js >= 18.15.0
 - npm >= 9.5.0
-- Chave de API Groq (registre-se em [console.groq.com](https://console.groq.com))
+- Groq API Key (register at [console.groq.com](https://console.groq.com))
 
-## 🚀 Instalação
+## 🚀 Installation
 
-1. Clone o repositório:
+1. Clone the repository:
 
    ```bash
    git clone 
    cd Groqlin
    ```
 
-2. Instale as dependências:
+2. Install dependencies:
 
    ```bash
    npm install
    ```
 
-3. Crie o arquivo `.env` na raiz do projeto:
+3. Create the `.env` file in the project's root:
 
    ```env
-   REACT_APP_GROQ_API_KEY=sua_chave_aqui
+   REACT_APP_GROQ_API_KEY=your_key_here
    ```
 
-4. Inicie a aplicação:
+4. Start the application:
 
    ```bash
    npm start
    ```
 
-   A aplicação estará disponível em: [http://localhost:3000](http://localhost:3000)
+   The application will be available at: [http://localhost:3000](http://localhost:3000)
 
-## 🖥 Como Usar
+## 🖥 How to Use
 
-### Nova Conversa
+### New Conversation
 
-- Clique no botão "+" na sidebar para iniciar nova conversa
+- Click the "+" button in the sidebar to start a new conversation
 
-### Enviar Mensagem
+### Send Message
 
-- Digite sua mensagem no campo de texto
-- Pressione Enter ou clique no botão "Enviar"
+- Type your message in the text field
+- Press Enter or click the "Send" button
 
-### Trocar Modelo
+### Switch Model
 
-- Selecione o modelo desejado no dropdown superior
+- Select the desired model from the top dropdown
 
-### Gerenciar Conversas
+### Manage Conversations
 
-- ✏️ Clique no ícone de lápis para renomear
-- 🗑️ Clique no ícone de lixeira para excluir
-- 💾 Histórico salvo automaticamente no localStorage
+- ✏️ Click the pencil icon to rename
+- 🗑️ Click the trash icon to delete
+- 💾 History is automatically saved in localStorage
 
-### Configuração do `.env`
+### `.env` Configuration
 
-Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
+Create a `.env` file in the project's root with the following content:
 
 ```env
-REACT_APP_GROQ_API_KEY=sua_chave_groq_aqui
+REACT_APP_GROQ_API_KEY=your_groq_key_here
 ```
 
-**Importante:** Nunca compartilhe ou faça commit deste arquivo!
+**Important:** Never share or commit this file!
 
-## 🔧 Tecnologias Utilizadas
+## 🔧 Technologies Used
 
 - React.js
 - LangChain
@@ -86,31 +96,31 @@ REACT_APP_GROQ_API_KEY=sua_chave_groq_aqui
 - Material UI
 - Day.js
 
-## 🔍 Dicas
+## 🔍 Tips
 
-Para obter uma chave de API Groq:
+To obtain a Groq API key:
 
-- Acesse [console.groq.com](https://console.groq.com)
-- Crie uma conta gratuita
-- Gere uma nova chave em "API Keys"
-- Mantenha sua chave de API em segurança
-- Experimente diferentes modelos para comparar respostas
+- Visit [console.groq.com](https://console.groq.com)
+- Create a free account
+- Generate a new key in "API Keys"
+- Keep your API key secure
+- Try different models to compare responses
 
-## ⚠️ Solução de Problemas
+## ⚠️ Troubleshooting
 
-### Erro: "Missing API Key"
+### Error: "Missing API Key"
 
-- Verifique se o arquivo `.env` existe na raiz do projeto
-- Confira se o nome da variável está correto: `REACT_APP_GROQ_API_KEY`
+- Ensure that the `.env` file exists in the project's root
+- Verify that the variable name is correct: `REACT_APP_GROQ_API_KEY`
 
-### Erro: "Invalid API Key"
+### Error: "Invalid API Key"
 
-- Gere uma nova chave no console da Groq
-- Atualize o arquivo `.env`
+- Generate a new key from the Groq console
+- Update the `.env` file
 
-### Erros de Instalação
+### Installation Errors
 
-Limpe o cache do npm:
+Clear the npm cache:
 
 ```bash
 npm cache clean --force
@@ -118,35 +128,35 @@ rm -rf node_modules
 npm install
 ```
 
-## 🤝 Contribuição
+## 🤝 Contribution
 
-Contribuições são bem-vindas! Siga estes passos:
+Contributions are welcome! Follow these steps:
 
-1. Faça um fork do projeto
-2. Crie uma branch com sua feature:
-
-   ```bash
-   git checkout -b feature/incrivel
-   ```
-
-3. Faça commit das mudanças:
+1. Fork the project
+2. Create a branch for your feature:
 
    ```bash
-   git commit -m 'Add incrivel feature'
+   git checkout -b feature/amazing
    ```
 
-4. Faça push para a branch:
+3. Commit your changes:
 
    ```bash
-   git push origin feature/incrivel
+   git commit -m 'Add amazing feature'
    ```
 
-5. Abra um Pull Request
+4. Push to your branch:
 
-## 📄 Licença
+   ```bash
+   git push origin feature/amazing
+   ```
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo `LICENSE` para detalhes.
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the `LICENSE` file for details.
 
 ---
 
-**Nota:** Este projeto é para fins educacionais/demonstrativos. Para ambientes de produção, recomenda-se implementar um backend para gerenciar as chaves de API com segurança.
+**Note:** This project is for educational/demonstration purposes. For production environments, it is recommended to implement a backend to securely manage API keys.
