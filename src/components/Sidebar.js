@@ -23,35 +23,26 @@ const Sidebar = ({
     setDeleteDialogOpen,
     isDarkMode,
     setIsDarkMode,
-    onClose
 }) => {
     return (
         <Paper
             sx={{
                 width: 250,
+                height: '100%',
+                position: 'fixed',
+                left: 0,
+                top: 0,
                 p: 2,
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: 0,
                 bgcolor: 'background.paper',
                 borderRight: '1px solid',
-                borderColor: 'divider'
+                borderColor: 'divider',
+                zIndex: 1100
             }}
             elevation={0}
         >
-            {/* Botão de fechar na parte inferior */}
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    pt: 1
-                }}
-            >
-                <IconButton onClick={onClose}>
-                    <ChevronLeft />
-                </IconButton>
-            </Box>
-            
             {/* Toggle de tema (claro/escuro) */}
             <Box
                 sx={{
@@ -76,7 +67,7 @@ const Sidebar = ({
                 }}
             >
                 {/* <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                    Conversas
+                    Chats
                 </Typography> */}
                 <IconButton onClick={createNewConversation}>
                     <Add />

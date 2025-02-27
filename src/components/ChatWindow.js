@@ -14,7 +14,7 @@ const ChatWindow = ({ messages, models }) => {
       const thinkMatch = part.match(/<think>(.*?)<\/think>/s);
       if (thinkMatch) {
         return (
-          <span key={index} style={{ opacity: 0.3 }}>
+          <span key={index} style={{ opacity: 0.6 }}>
             {thinkMatch[1]}
           </span>
         );
@@ -46,8 +46,14 @@ const ChatWindow = ({ messages, models }) => {
           <Box
             sx={{
               maxWidth: '60%',
-              bgcolor: msg.role === 'user' ? 'primary.main' : 'background.paper',
-              color: msg.role === 'user' ? 'primary.contrastText' : 'text.primary',
+              bgcolor: msg.role === 'user' 
+                ? 'primary.main' 
+                : theme.palette.mode === 'dark' 
+                  ? '#1a3d2c' // Tom de verde escuro para modo escuro
+                  : '#e8f5e9', // Tom de verde claro para modo claro
+              color: msg.role === 'user' 
+                ? 'primary.contrastText' 
+                : 'text.primary',
               p: 2,
               borderRadius: 2,
               position: 'relative',
@@ -63,7 +69,9 @@ const ChatWindow = ({ messages, models }) => {
                 borderWidth: '8px 12px 8px 0',
                 borderColor: msg.role === 'user'
                   ? `transparent ${theme.palette.primary.main} transparent transparent`
-                  : `transparent ${theme.palette.background.paper} transparent transparent`,
+                  : theme.palette.mode === 'dark'
+                    ? `transparent #1a3d2c transparent transparent`
+                    : `transparent #e8f5e9 transparent transparent`,
                 transform: msg.role === 'user' ? 'rotate(180deg)' : 'none'
               }
             }}
@@ -83,7 +91,11 @@ const ChatWindow = ({ messages, models }) => {
                 code: ({ node, inline, ...props }) => (
                   <code
                     style={{
-                      background: msg.role === 'user' ? '#ffffff30' : '#00000010',
+                      background: msg.role === 'user' 
+                        ? '#ffffff30' 
+                        : theme.palette.mode === 'dark'
+                          ? '#ffffff10'
+                          : '#00000010',
                       padding: '2px 4px',
                       borderRadius: 4,
                       fontFamily: 'monospace'
@@ -98,9 +110,9 @@ const ChatWindow = ({ messages, models }) => {
 
             {/* Show model name only for AI messages */}
             {msg.role !== 'user' && msg.model && (
-              <Typography
-                variant="caption"
-                sx={{
+              <Typography 
+                variant="caption" 
+                sx={{ 
                   display: 'block',
                   mt: 1,
                   color: 'text.secondary'

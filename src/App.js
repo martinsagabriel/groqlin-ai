@@ -6,6 +6,7 @@ import { HumanMessage } from '@langchain/core/messages';
 import Sidebar from './components/Sidebar';
 import ChatWindow from './components/ChatWindow';
 import ChatInput from './components/ChatInput';
+import SidebarToggle from './components/SidebarToggle';
 
 // MUI
 import {
@@ -220,11 +221,11 @@ const App = () => {
         sx={{
           height: '100vh',
           display: 'flex',
-          // Em vez de usar cor fixa, vamos usar o background default do tema
-          backgroundColor: 'background.default'
+          backgroundColor: 'background.default',
+          position: 'relative'
         }}
       >
-        {/* Sidebar com controle de visibilidade */}
+        {/* Sidebar */}
         {sidebarOpen && (
           <Sidebar
             conversations={conversations}
@@ -238,20 +239,23 @@ const App = () => {
             setDeleteDialogOpen={setDeleteDialogOpen}
             isDarkMode={isDarkMode}
             setIsDarkMode={setIsDarkMode}
-            onClose={() => setSidebarOpen(false)}
           />
         )}
 
-        {/* Conteúdo principal com botão para abrir sidebar */}
-        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          {!sidebarOpen && (
-            <IconButton
-              onClick={() => setSidebarOpen(true)}
-              sx={{ position: 'absolute', left: 8, top: 8 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
+        {/* Botão de toggle da sidebar */}
+        <SidebarToggle
+          isOpen={sidebarOpen}
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        />
+
+        {/* Conteúdo principal */}
+        <Box sx={{ 
+          flex: 1, 
+          display: 'flex', 
+          flexDirection: 'column',
+          marginLeft: sidebarOpen ? '250px' : 0,
+          transition: 'margin-left 0.3s ease'
+        }}>
           <ChatWindow messages={messages} models={models} />
           <ChatInput
             selectedModel={selectedModel}
