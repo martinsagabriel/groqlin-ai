@@ -8,7 +8,7 @@ import {
     ListItem,
     ListItemText
 } from '@mui/material';
-import { Add, Edit, Delete, DarkMode, LightMode } from '@mui/icons-material';
+import { Add, Edit, Delete, DarkMode, LightMode, ChevronLeft } from '@mui/icons-material';
 import dayjs from 'dayjs';
 
 const Sidebar = ({
@@ -22,7 +22,8 @@ const Sidebar = ({
     setConversationToDelete,
     setDeleteDialogOpen,
     isDarkMode,
-    setIsDarkMode
+    setIsDarkMode,
+    onClose
 }) => {
     return (
         <Paper
@@ -32,30 +33,25 @@ const Sidebar = ({
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: 0,
-                // Usamos o papel no modo "inherit" para cores do tema
                 bgcolor: 'background.paper',
                 borderRight: '1px solid',
                 borderColor: 'divider'
             }}
             elevation={0}
         >
-            {/* Título e botão de nova conversa */}
+            {/* Botão de fechar na parte inferior */}
             <Box
                 sx={{
                     display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    mb: 2
+                    justifyContent: 'center',
+                    pt: 1
                 }}
             >
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                    Conversas
-                </Typography>
-                <IconButton onClick={createNewConversation}>
-                    <Add />
+                <IconButton onClick={onClose}>
+                    <ChevronLeft />
                 </IconButton>
             </Box>
-
+            
             {/* Toggle de tema (claro/escuro) */}
             <Box
                 sx={{
@@ -69,6 +65,24 @@ const Sidebar = ({
                     {isDarkMode ? <LightMode /> : <DarkMode />}
                 </IconButton>
             </Box>
+
+            {/* Título e botão de nova conversa */}
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: 2
+                }}
+            >
+                {/* <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                    Conversas
+                </Typography> */}
+                <IconButton onClick={createNewConversation}>
+                    <Add />
+                </IconButton>
+            </Box>
+
 
             {/* Lista de conversas */}
             <List sx={{ flex: 1, overflowY: 'auto' }}>
@@ -123,6 +137,7 @@ const Sidebar = ({
                     </ListItem>
                 ))}
             </List>
+
         </Paper>
     );
 };

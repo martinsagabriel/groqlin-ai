@@ -18,8 +18,11 @@ import {
   TextField,
   createTheme,
   ThemeProvider,
-  CssBaseline
+  CssBaseline,
+  IconButton
 } from '@mui/material';
+
+import MenuIcon from '@mui/icons-material/Menu';
 
 // Estilos globais
 import './theme.css';
@@ -52,6 +55,9 @@ const App = () => {
   // Tema claro/escuro
   const [isDarkMode, setIsDarkMode] = useState(storedDarkMode);
 
+  // Sidebar
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
   // Modelos disponíveis
   const models = [
     { name: 'Llama 3.3', value: 'llama-3.3-70b-versatile' },
@@ -60,7 +66,7 @@ const App = () => {
     { name: 'Gemma2', value: 'deepseek-coder-32b' },
     { name: 'Whisper', value: 'whisper-large-v3' },
     { name: 'Whisper Turbo', value: 'whisper-large-v3-turbo' },
-    { name: 'Qwen 2.5', value: 'qwen-2.5-32b'},
+    { name: 'Qwen 2.5', value: 'qwen-2.5-32b' },
   ];
 
   // Atualiza localStorage sempre que o array de conversas mudar
@@ -207,24 +213,34 @@ const App = () => {
           backgroundColor: 'background.default'
         }}
       >
-        {/* Sidebar (lista de conversas) */}
-        <Sidebar
-          conversations={conversations}
-          currentConversationId={currentConversationId}
-          createNewConversation={createNewConversation}
-          selectConversation={selectConversation}
-          setConversationToRename={setConversationToRename}
-          setNewConversationName={setNewConversationName}
-          setRenameDialogOpen={setRenameDialogOpen}
-          setConversationToDelete={setConversationToDelete}
-          setDeleteDialogOpen={setDeleteDialogOpen}
-          // Props para tema
-          isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}
-        />
+        {/* Sidebar com controle de visibilidade */}
+        {sidebarOpen && (
+          <Sidebar
+            conversations={conversations}
+            currentConversationId={currentConversationId}
+            createNewConversation={createNewConversation}
+            selectConversation={selectConversation}
+            setConversationToRename={setConversationToRename}
+            setNewConversationName={setNewConversationName}
+            setRenameDialogOpen={setRenameDialogOpen}
+            setConversationToDelete={setConversationToDelete}
+            setDeleteDialogOpen={setDeleteDialogOpen}
+            isDarkMode={isDarkMode}
+            setIsDarkMode={setIsDarkMode}
+            onClose={() => setSidebarOpen(false)}
+          />
+        )}
 
-        {/* Conteúdo principal: Mensagens e Input */}
+        {/* Conteúdo principal com botão para abrir sidebar */}
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          {!sidebarOpen && (
+            <IconButton
+              onClick={() => setSidebarOpen(true)}
+              sx={{ position: 'absolute', left: 8, top: 8 }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
           <ChatWindow messages={messages} models={models} />
           <ChatInput
             selectedModel={selectedModel}
