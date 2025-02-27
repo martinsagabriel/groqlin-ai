@@ -69,6 +69,10 @@ const App = () => {
     { name: 'Qwen 2.5', value: 'qwen-2.5-32b' },
   ];
 
+  // Adiciona estado para o system prompt
+  const [systemPrompt, setSystemPrompt] = useState('');
+  const [systemPromptDialogOpen, setSystemPromptDialogOpen] = useState(false);
+
   // Atualiza localStorage sempre que o array de conversas mudar
   useEffect(() => {
     localStorage.setItem('chatHistory', JSON.stringify(conversations));
@@ -90,7 +94,7 @@ const App = () => {
   const createNewConversation = () => {
     const newConversation = {
       id: Date.now(),
-      name: 'Nova Conversa',
+      name: 'New Chat',
       messages: [],
       model: selectedModel,
       timestamp: new Date().toISOString()
@@ -135,16 +139,23 @@ const App = () => {
     setNewConversationName('');
   };
 
-  // Envia mensagem do usuário e obtém resposta
+  // Modifica a função handleSendMessage para incluir o system prompt
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
 
     try {
       setIsLoading(true);
 
-      // Mensagem do usuário
-      const userMessage = new HumanMessage(inputMessage);
-      const updatedMessages = [...messages, { type: 'human', content: inputMessage }];
+      // Mensagens para enviar à API
+      const messages = [];
+      
+      // Adiciona system prompt se existir
+      if (systemPrompt.trim()) {
+        messages.push({ role: 'system', content: systemPrompt });
+      }
+      
+      // Adiciona mensagem do usuário
+      messages.push({ role: 'user', content: inputMessage });
 
       // Chama a API do Groq
       const groq = new ChatGroq({
@@ -153,9 +164,9 @@ const App = () => {
       });
 
       // Resposta da IA
-      const response = await groq.invoke([userMessage]);
+      const response = await groq.invoke(messages);
       const finalMessages = [
-        ...updatedMessages,
+        ...messages,
         {
           type: 'ai',
           content: response.content,
@@ -250,6 +261,8 @@ const App = () => {
             setInputMessage={setInputMessage}
             isLoading={isLoading}
             handleSendMessage={handleSendMessage}
+            systemPrompt={systemPrompt}
+            onSystemPromptClick={() => setSystemPromptDialogOpen(true)}
           />
         </Box>
 
@@ -258,9 +271,9 @@ const App = () => {
           open={deleteDialogOpen}
           onClose={() => setDeleteDialogOpen(false)}
         >
-          <DialogTitle>Tem certeza que deseja excluir esta conversa?</DialogTitle>
+          <DialogTitle>Are you sure you want to delete this chat?</DialogTitle>
           <DialogActions>
-            <Button onClick={() => setDeleteDialogOpen(false)}>Cancelar</Button>
+            <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
             <Button
               color="error"
               onClick={() => {
@@ -268,7 +281,7 @@ const App = () => {
                 setDeleteDialogOpen(false);
               }}
             >
-              Excluir
+              Delete
             </Button>
           </DialogActions>
         </Dialog>
@@ -278,25 +291,58 @@ const App = () => {
           open={renameDialogOpen}
           onClose={() => setRenameDialogOpen(false)}
         >
-          <DialogTitle>Renomear Conversa</DialogTitle>
+          <DialogTitle>Rename Chat</DialogTitle>
           <Box sx={{ p: 3, minWidth: 400 }}>
             <TextField
               fullWidth
               autoFocus
-              label="Novo nome"
+              label="New name"
               value={newConversationName}
               onChange={(e) => setNewConversationName(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && renameConversation()}
             />
           </Box>
           <DialogActions>
-            <Button onClick={() => setRenameDialogOpen(false)}>Cancelar</Button>
+            <Button onClick={() => setRenameDialogOpen(false)}>Cancel</Button>
             <Button
               variant="contained"
               onClick={renameConversation}
               disabled={!newConversationName.trim()}
             >
-              Salvar
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Diálogo do System Prompt */}
+        <Dialog
+          open={systemPromptDialogOpen}
+          onClose={() => setSystemPromptDialogOpen(false)}
+          maxWidth="md"
+          fullWidth
+        >
+          <DialogTitle>Configure System Prompt</DialogTitle>
+          <Box sx={{ p: 3 }}>
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              label="System Prompt"
+              value={systemPrompt}
+              onChange={(e) => setSystemPrompt(e.target.value)}
+              placeholder="Ex: You are an assistant specialized in Python programming..."
+              helperText="Defines how the model should behave when responding"
+            />
+          </Box>
+          <DialogActions>
+            <Button onClick={() => setSystemPromptDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => setSystemPromptDialogOpen(false)}
+            >
+              Save
             </Button>
           </DialogActions>
         </Dialog>

@@ -1,6 +1,15 @@
 import React from 'react';
-import { Box, Select, MenuItem, TextField, Button } from '@mui/material';
-import { Send } from '@mui/icons-material';
+import {
+  Box,
+  TextField,
+  IconButton,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Tooltip
+} from '@mui/material';
+import { Send, Settings } from '@mui/icons-material';
 
 const ChatInput = ({
   selectedModel,
@@ -9,25 +18,26 @@ const ChatInput = ({
   inputMessage,
   setInputMessage,
   isLoading,
-  handleSendMessage
+  handleSendMessage,
+  systemPrompt,
+  onSystemPromptClick
 }) => {
   return (
     <Box
       sx={{
-        position: 'sticky',
-        bottom: 0,
-        background: '#fff',
-        borderTop: '1px solid #ddd',
-        p: 2
+        p: 2,
+        borderTop: '1px solid',
+        borderColor: 'divider',
+        display: 'flex',
+        gap: 1
       }}
     >
-      <Box sx={{ display: 'flex', gap: 1 }}>
-        {/* Selecionar modelo */}
+      <FormControl size="small" sx={{ minWidth: 150 }}>
+        <InputLabel>Model</InputLabel>
         <Select
           value={selectedModel}
           onChange={(e) => setSelectedModel(e.target.value)}
-          size="small"
-          sx={{ width: 140 }}
+          label="Model"
         >
           {models.map((model) => (
             <MenuItem key={model.value} value={model.value}>
@@ -35,39 +45,35 @@ const ChatInput = ({
             </MenuItem>
           ))}
         </Select>
+      </FormControl>
 
-        {/* Campo de texto */}
-        <TextField
-          fullWidth
-          variant="outlined"
-          size="small"
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-          placeholder="Enviar mensagem"
-          disabled={isLoading}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              borderRadius: 20
-            }
-          }}
-        />
-
-        {/* Botão de enviar */}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSendMessage}
-          disabled={isLoading || !inputMessage.trim()}
-          sx={{
-            borderRadius: 20,
-            minWidth: 100,
-            textTransform: 'none'
-          }}
+      {/* System Prompt button */}
+      <Tooltip title="System Prompt">
+        <IconButton
+          onClick={onSystemPromptClick}
+          color={systemPrompt ? "primary" : "default"}
         >
-          <Send />
-        </Button>
-      </Box>
+          <Settings />
+        </IconButton>
+      </Tooltip>
+
+      <TextField
+        fullWidth
+        size="small"
+        value={inputMessage}
+        onChange={(e) => setInputMessage(e.target.value)}
+        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+        placeholder="Type your message..."
+        disabled={isLoading}
+      />
+
+      <IconButton
+        onClick={handleSendMessage}
+        disabled={isLoading || !inputMessage.trim()}
+        color="primary"
+      >
+        <Send />
+      </IconButton>
     </Box>
   );
 };
