@@ -7,6 +7,8 @@ import Sidebar from './components/Sidebar';
 import ChatWindow from './components/ChatWindow';
 import ChatInput from './components/ChatInput';
 import SidebarToggle from './components/SidebarToggle';
+import ParametersSidebar from './components/ParametersSidebar';
+import ParametersToggle from './components/ParametersToggle';
 
 // MUI
 import {
@@ -19,11 +21,9 @@ import {
   TextField,
   createTheme,
   ThemeProvider,
-  CssBaseline,
-  IconButton
+  CssBaseline 
 } from '@mui/material';
 
-import MenuIcon from '@mui/icons-material/Menu';
 
 // Estilos globais
 import './theme.css';
@@ -58,6 +58,11 @@ const App = () => {
 
   // Sidebar
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  // Add new state for parameters sidebar
+  const [parametersOpen, setParametersOpen] = useState(false);
+  const [temperature, setTemperature] = useState(1);
+  const [maxTokens, setMaxTokens] = useState(1024);
 
   // Modelos disponíveis
   const models = [
@@ -161,7 +166,9 @@ const App = () => {
       // Chama a API do Groq
       const groq = new ChatGroq({
         apiKey: process.env.REACT_APP_GROQ_API_KEY,
-        model: selectedModel
+        model: selectedModel,
+        temperature: temperature,
+        maxTokens: maxTokens,
       });
 
       // Resposta da IA
@@ -248,13 +255,29 @@ const App = () => {
           onClick={() => setSidebarOpen(!sidebarOpen)}
         />
 
+        {/* Parameters sidebar and toggle */}
+        <ParametersSidebar
+          isOpen={parametersOpen}
+          onClose={() => setParametersOpen(false)}
+          temperature={temperature}
+          setTemperature={setTemperature}
+          maxTokens={maxTokens}
+          setMaxTokens={setMaxTokens}
+        />
+        
+        <ParametersToggle
+          isOpen={parametersOpen}
+          onClick={() => setParametersOpen(!parametersOpen)}
+        />
+
         {/* Conteúdo principal */}
         <Box sx={{ 
           flex: 1, 
           display: 'flex', 
           flexDirection: 'column',
           marginLeft: sidebarOpen ? '250px' : 0,
-          transition: 'margin-left 0.3s ease'
+          marginRight: parametersOpen ? '250px' : 0,
+          transition: 'margin 0.3s ease'
         }}>
           <ChatWindow messages={messages} models={models} />
           <ChatInput
