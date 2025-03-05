@@ -3,15 +3,12 @@ import {
     Paper,
     Box,
     Typography,
-    IconButton,
     Slider,
     TextField,
 } from '@mui/material';
-import { ChevronRight } from '@mui/icons-material';
 
 const ParametersSidebar = ({
     isOpen,
-    onClose,
     temperature,
     setTemperature,
     maxTokens,

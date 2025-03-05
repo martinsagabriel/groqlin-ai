@@ -2,13 +2,12 @@ import React from 'react';
 import {
     Paper,
     Box,
-    Typography,
     IconButton,
     List,
     ListItem,
     ListItemText
 } from '@mui/material';
-import { Add, Edit, Delete, DarkMode, LightMode, ChevronLeft } from '@mui/icons-material';
+import { Add, Edit, Delete, DarkMode, LightMode } from '@mui/icons-material';
 import dayjs from 'dayjs';
 
 const Sidebar = ({

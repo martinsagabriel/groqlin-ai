@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { ChatGroq } from '@langchain/groq';
-import { HumanMessage } from '@langchain/core/messages';
 
 // Componentes
 import Sidebar from './components/Sidebar';
@@ -9,6 +8,7 @@ import ChatInput from './components/ChatInput';
 import SidebarToggle from './components/SidebarToggle';
 import ParametersSidebar from './components/ParametersSidebar';
 import ParametersToggle from './components/ParametersToggle';
+
 
 // MUI
 import {
