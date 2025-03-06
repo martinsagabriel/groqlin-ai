@@ -1,11 +1,45 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useTheme } from '@mui/material/styles';
+import ScrollToBottomButton from './ScrollToBottomButton';
 
 const ChatWindow = ({ messages, models }) => {
   const theme = useTheme();
+  const messagesEndRef = useRef(null);
+  const containerRef = useRef(null);
+  const [showScrollButton, setShowScrollButton] = useState(false);
+
+  // Monitora o scroll para mostrar/esconder o botão
+  const handleScroll = () => {
+    if (!containerRef.current) return;
+    
+    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+    const bottomThreshold = 100; // pixels do fundo
+    const isNearBottom = scrollHeight - scrollTop - clientHeight < bottomThreshold;
+    
+    setShowScrollButton(!isNearBottom);
+  };
+
+  // Função para rolar até o final
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Adiciona listener de scroll
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      return () => container.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
+  // Rola automaticamente para baixo quando novas mensagens são adicionadas
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   // Função para processar o conteúdo e aplicar estilo ao texto dentro de <think>
   const processThinkTags = (content) => {
@@ -25,12 +59,14 @@ const ChatWindow = ({ messages, models }) => {
 
   return (
     <Box
+      ref={containerRef}
       sx={{
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
         p: 2,
-        overflowY: 'auto'
+        overflowY: 'auto',
+        position: 'relative'
       }}
     >
       {messages.map((msg, index) => (
@@ -135,6 +171,15 @@ const ChatWindow = ({ messages, models }) => {
           </Box>
         </Box>
       ))}
+
+      {/* Referência para o final das mensagens */}
+      <div ref={messagesEndRef} />
+
+      {/* Componente do botão de scroll */}
+      <ScrollToBottomButton 
+        show={showScrollButton} 
+        onClick={scrollToBottom} 
+      />
     </Box>
   );
 };
