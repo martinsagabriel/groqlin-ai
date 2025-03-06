@@ -45,7 +45,11 @@ const ChatWindow = ({ messages, models }) => {
         >
           <Box
             sx={{
-              maxWidth: '60%',
+              maxWidth: {
+                xs: '85%', // Em dispositivos móveis
+                sm: '75%', // Em tablets
+                md: '60%'  // Em desktops
+              },
               bgcolor: msg.role === 'user' 
                 ? 'primary.main' 
                 : theme.palette.mode === 'dark' 
