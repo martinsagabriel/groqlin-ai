@@ -73,6 +73,7 @@ const App = () => {
     { name: 'Whisper', value: 'whisper-large-v3' },
     { name: 'Whisper Turbo', value: 'whisper-large-v3-turbo' },
     { name: 'Qwen 2.5', value: 'qwen-2.5-32b' },
+    { name: 'Qwen 32B', value: 'qwen-qwq-32b'}
   ];
 
   // Adiciona estado para o system prompt
