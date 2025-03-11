@@ -29,51 +29,71 @@ const ChatInput = ({
         borderTop: '1px solid',
         borderColor: 'divider',
         display: 'flex',
-        gap: 1
+        gap: 1,
+        flexDirection: {
+          xs: 'column',
+          sm: 'row'
+        }
       }}
     >
-      <FormControl size="small" sx={{ minWidth: 150 }}>
-        <InputLabel>Model</InputLabel>
-        <Select
-          value={selectedModel}
-          onChange={(e) => setSelectedModel(e.target.value)}
-          label="Model"
+      <Box sx={{ 
+        display: 'flex', 
+        gap: 1,
+        width: { xs: '100%', sm: 'auto' }
+      }}>
+        <FormControl 
+          size="small" 
+          sx={{ 
+            minWidth: { xs: '50%', sm: 150 }
+          }}
         >
-          {models.map((model) => (
-            <MenuItem key={model.value} value={model.value}>
-              {model.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+          <InputLabel>Model</InputLabel>
+          <Select
+            value={selectedModel}
+            onChange={(e) => setSelectedModel(e.target.value)}
+            label="Model"
+          >
+            {models.map((model) => (
+              <MenuItem key={model.value} value={model.value}>
+                {model.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      {/* System Prompt button */}
-      <Tooltip title="System Prompt">
+        <Tooltip title="System Prompt">
+          <IconButton
+            onClick={onSystemPromptClick}
+            color={systemPrompt ? "primary" : "default"}
+          >
+            <Settings />
+          </IconButton>
+        </Tooltip>
+      </Box>
+
+      <Box sx={{ 
+        display: 'flex', 
+        gap: 1,
+        width: '100%'
+      }}>
+        <TextField
+          fullWidth
+          size="small"
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+          placeholder="Type your message..."
+          disabled={isLoading}
+        />
+
         <IconButton
-          onClick={onSystemPromptClick}
-          color={systemPrompt ? "primary" : "default"}
+          onClick={handleSendMessage}
+          disabled={isLoading || !inputMessage.trim()}
+          color="primary"
         >
-          <Settings />
+          <Send />
         </IconButton>
-      </Tooltip>
-
-      <TextField
-        fullWidth
-        size="small"
-        value={inputMessage}
-        onChange={(e) => setInputMessage(e.target.value)}
-        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-        placeholder="Type your message..."
-        disabled={isLoading}
-      />
-
-      <IconButton
-        onClick={handleSendMessage}
-        disabled={isLoading || !inputMessage.trim()}
-        color="primary"
-      >
-        <Send />
-      </IconButton>
+      </Box>
     </Box>
   );
 };

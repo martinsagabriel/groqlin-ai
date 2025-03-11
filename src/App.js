@@ -80,6 +80,9 @@ const App = () => {
   const [systemPrompt, setSystemPrompt] = useState('');
   const [systemPromptDialogOpen, setSystemPromptDialogOpen] = useState(false);
 
+  // Adiciona estado para controle de dispositivo móvel
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
   // Atualiza localStorage sempre que o array de conversas mudar
   useEffect(() => {
     localStorage.setItem('chatHistory', JSON.stringify(conversations));
@@ -89,6 +92,23 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem('darkMode', isDarkMode);
   }, [isDarkMode]);
+
+  // Adiciona listener para detectar mudanças no tamanho da tela
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      
+      // Fecha as sidebars automaticamente em dispositivos móveis
+      if (mobile) {
+        setSidebarOpen(false);
+        setParametersOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Cria tema de acordo com isDarkMode
   const theme = createTheme({
@@ -230,7 +250,8 @@ const App = () => {
           height: '100vh',
           display: 'flex',
           backgroundColor: 'background.default',
-          position: 'relative'
+          position: 'relative',
+          overflow: 'hidden' // Previne scroll horizontal
         }}
       >
         {/* Sidebar */}
@@ -276,9 +297,10 @@ const App = () => {
           flex: 1, 
           display: 'flex', 
           flexDirection: 'column',
-          marginLeft: sidebarOpen ? '250px' : 0,
-          marginRight: parametersOpen ? '250px' : 0,
-          transition: 'margin 0.3s ease'
+          marginLeft: !isMobile && sidebarOpen ? '250px' : 0,
+          marginRight: !isMobile && parametersOpen ? '250px' : 0,
+          transition: 'margin 0.3s ease',
+          width: '100%'
         }}>
           <ChatWindow messages={messages} models={models} />
           <ChatInput

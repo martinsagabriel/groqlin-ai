@@ -26,7 +26,7 @@ const Sidebar = ({
     return (
         <Paper
             sx={{
-                width: 250,
+                width: { xs: '100%', sm: 250 },
                 height: '100%',
                 position: 'fixed',
                 left: 0,
@@ -38,7 +38,7 @@ const Sidebar = ({
                 bgcolor: 'background.paper',
                 borderRight: '1px solid',
                 borderColor: 'divider',
-                zIndex: 1100
+                zIndex: 1200
             }}
             elevation={0}
         >
